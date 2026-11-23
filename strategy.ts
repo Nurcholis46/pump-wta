@@ -8,7 +8,7 @@
 // leaves at once when the creator sells. One tranche per coin, never an add.
 //
 // If strong launches run scarce the entry bar relaxes in stages (real SOL 5 -> 2 -> 1, recent
-// buyers 6 -> 4 -> 3, max age 3 -> 6 -> 10), so the 20-coin round-trip guardrail is still met on a
+// buyers 6 -> 4 -> 3, max age 1 -> 3 -> 6), so the 20-coin round-trip guardrail is still met on a
 // fresh window. The relaxation is monotonic and driven only by coins seen vs buys made, so it is
 // deterministic and needs no clock, environment or randomness.
 
@@ -54,7 +54,11 @@ export const DEFAULT_PARAMS: Params = {
   stakeLamports: 300_000_000,
   minBuyLamports: 10_000_000,
   minRealSolTier: [5_000_000_000, 2_000_000_000, 1_000_000_000],
-  maxAgeTier: [3, 6, 10],
+  // Tuned 23 Nov: enter only in a coin's first two slots (age 0-1). The dev
+  // window's edge lives in the earliest tape: age <= 1 lifts dev PnL from
+  // +0.398 to +0.532 SOL and the 70%-subsample stress median from +0.223 to
+  // +0.307 SOL (p10 -0.003 -> +0.097, losing copies 3/20 -> 0/20).
+  maxAgeTier: [1, 3, 6],
   minRecentBuyersTier: [6, 4, 3],
   tierCoinsSeen: [60, 150],
   tierBuysBelow: [8, 15],

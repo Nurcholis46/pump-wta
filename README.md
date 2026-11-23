@@ -13,16 +13,16 @@ Referral code: `mt29fv3h` — https://make.fun/r/mt29fv3h
 `main.ts` runs the strategy in `strategy.ts` on the house `agent-fun/replay/v2` protocol (vendored shim in `vendor/makefun-bot.ts`):
 
 - **Watch every launch from its CreateEvent.** In a coin's first slots the bot reads the opening tape: real SOL the curve already holds, distinct wallets piling in besides the creator, the creator's own create-slot buy, whether the creator has sold, and whether the tape already shows a big sell or heavy selling.
-- **Buy only strong launches:** age ≤ 3 slots, real SOL ≥ 5, price still above half its create price, ≥ 6 distinct recent non-creator buyers, creator's create-slot buy under 2.5 SOL, no big sell, no heavy selling. One tranche per coin (up to 0.3 SOL, capped at 1% of real SOL reserve), never an add.
+- **Buy only strong launches:** age ≤ 1 slot, real SOL ≥ 5, price still above half its create price, ≥ 6 distinct recent non-creator buyers, creator's create-slot buy under 2.5 SOL, no big sell, no heavy selling. One tranche per coin (up to 0.3 SOL, capped at 1% of real SOL reserve), never an add.
 - **Exit fast:** +12% take-profit, −10% stop-loss, 10-slot max hold, or at once if the creator sells. Exits are priced on true sell proceeds (constant-product sale less curve fees and tx fee) against real cost (filled buys + tx fees).
-- **Relax in stages if strong launches run scarce** (real SOL 5 → 2 → 1, recent buyers 6 → 4 → 3, max age 3 → 6 → 10), so the 20-coin round-trip guardrail is still met on a fresh window.
+- **Relax in stages if strong launches run scarce** (real SOL 5 → 2 → 1, recent buyers 6 → 4 → 3, max age 1 → 3 → 6), so the 20-coin round-trip guardrail is still met on a fresh window.
 - **Fully deterministic:** no clock, no environment, no randomness.
 
 ## Dev-window results (frozen kit dataset, all 3 parts, 1,222 coins)
 
 | bot | net PnL | round trips | max drawdown |
 | --- | --- | --- | --- |
-| **pump-wta (this entry)** | **+0.365 SOL** | 136 coins | 2.1% |
+| **pump-wta (this entry)** | **+0.532 SOL** | 112 coins | 2.0% |
 | pilot sniper (kit defaults) | −0.490 SOL | 353 coins | 5.3% |
 | pilot momentum | −9.467 SOL | 46 coins | 95.7% |
 | pilot reversion | −3.780 SOL | 199 coins | 47.3% |
